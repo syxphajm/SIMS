@@ -1,0 +1,25 @@
+﻿@page "/majors"
+
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using SIMS.Model
+@inject IDbContextFactory<SIMS.Data.ApplicationDbContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="majors/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="DbFactory.CreateDbContext().Majors.Include(m=>m.Department)">
+    <PropertyColumn Property="majors => majors.Name" />
+    <PropertyColumn Property="majors => majors.Department.Name" Title="Department Name"/>
+
+    <TemplateColumn Context="majors">
+        <a href="@($"majors/edit?id={majors.Id}")"><i class="fa-solid fa-pen-to-square"></i></a> |
+        <a href="@($"majors/details?id={majors.Id}")"><i class="fa-solid fa-circle-info"></i></a> |
+        <a href="@($"majors/delete?id={majors.Id}")"><i class="fa-solid fa-delete-left"></i></a>
+    </TemplateColumn>
+</QuickGrid>
