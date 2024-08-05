@@ -28,6 +28,16 @@
             <hr />
             <ValidationSummary class="text-danger" role="alert" />
             <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.Name" class="form-control" aria-required="true" placeholder="Student's Name'" />
+                <label for="email">Student's Name</label>
+                <ValidationMessage For="() => Input.Name" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.Code" class="form-control" aria-required="true" placeholder="Student's Code'" />
+                <label for="email">Student's Code</label>
+                <ValidationMessage For="() => Input.Code" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                 <label for="email">Email</label>
                 <ValidationMessage For="() => Input.Email" class="text-danger" />
@@ -106,7 +116,11 @@
     {
         try
         {
-            return Activator.CreateInstance<ApplicationUser>();
+            return new ApplicationUser()
+            {
+                Code=Input.Code,
+                Name = Input.Name
+            };
         }
         catch
         {
@@ -130,6 +144,13 @@
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; } = "";
+
+        [Required]
+        [Display(Name = "Name")]
+        public string Name { get; set; } = "";
+        [Required]
+        [Display(Name = "Code")]
+        public string Code { get; set; } = "";
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
